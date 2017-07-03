@@ -36,7 +36,7 @@ app = Flask(__name__)
 
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
-APPLICATION_NAME = "FSWD P3 Application"
+APPLICATION_NAME = "udacity-fullstack-itemcatalog"
 
 # Connect to Database and create database session
 engine = create_engine('sqlite:///categories.db')
