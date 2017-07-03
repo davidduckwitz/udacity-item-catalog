@@ -1,3 +1,11 @@
+#!/usr/bin/env python
+#
+# application.py -- Project 'Item Catalog' - Fullstack Webdeveloper Nanodegree by Udacity
+#
+# This content id produced by David Duckwitz
+# (c) 2017 by David Duckwitz (Project for Nanodegree - Udacity)
+# You can take this for getting ideas, but please create your own script
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -34,8 +42,7 @@ import requests
 
 app = Flask(__name__)
 
-CLIENT_ID = json.loads(
-    open('client_secrets.json', 'r').read())['web']['client_id']
+CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "udacity-fullstack-itemcatalog"
 
 # Connect to Database and create database session
@@ -50,8 +57,7 @@ session = DBSession()
 # Store it in the session for later validation
 @app.route('/login')
 def showLogin():
-    state = ''.join(random.choice(string.ascii_uppercase +
-                    string.digits) for x in xrange(32))
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
     login_session['state'] = state
     return render_template('login.html', STATE=state)
 
@@ -72,15 +78,13 @@ def gconnect():
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
-        response = make_response(
-            json.dumps('Failed to upgrade the authorization code.'), 401)
+        response = make_response(json.dumps('Failed to upgrade the authorization code.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
 
     # Check that the access token is valid.
     access_token = credentials.access_token
-    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s'
-           % access_token)
+    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' % access_token)
     h = httplib2.Http()
     result = json.loads(h.request(url, 'GET')[1])
     # If there was an error in the access token info, abort.
@@ -91,15 +95,13 @@ def gconnect():
     # Verify that the access token is used for the intended user.
     gplus_id = credentials.id_token['sub']
     if result['user_id'] != gplus_id:
-        response = make_response(
-            json.dumps("Token's user ID doesn't match given user ID."), 401)
+        response = make_response(json.dumps("Token's user ID doesn't match given user ID."), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
 
     # Verify that the access token is valid for this app.
     if result['issued_to'] != CLIENT_ID:
-        response = make_response(
-            json.dumps("Token's client ID does not match app's."), 401)
+        response = make_response(json.dumps("Token's client ID does not match app's."), 401)
         print "Token's client ID does not match app's."
         response.headers['Content-Type'] = 'application/json'
         return response
@@ -107,8 +109,7 @@ def gconnect():
     stored_token = credentials.access_token
     stored_gplus_id = login_session.get('gplus_id')
     if stored_token is not None and gplus_id == stored_gplus_id:
-        response = make_response(json.dumps('Current user is \
-            already connected.'), 200)
+        response = make_response(json.dumps('Current user is \already connected.'), 200)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -120,21 +121,17 @@ def gconnect():
     userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
     params = {'access_token': credentials.access_token, 'alt': 'json'}
     answer = requests.get(userinfo_url, params=params)
-
     data = answer.json()
-
     login_session['username'] = data['name']
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
-
     output = ''
     output += '<h1>Welcome, '
     output += login_session['username']
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: \
-            150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    output += ' " style = "width: 300px; height: 300px;border-radius: \150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
     if getUserID(login_session['email']) is None:
         createUser(login_session)
     flash("You are now logged in as %s" % login_session['username'])
@@ -144,10 +141,7 @@ def gconnect():
 # User Helper Functions
 
 def createUser(login_session):
-    newUser = User(
-        name=login_session['username'],
-        email=login_session['email'],
-        picture=login_session['picture'])
+    newUser = User(name=login_session['username'], email=login_session['email'], picture=login_session['picture'])
     session.add(newUser)
     session.commit()
     user = session.query(User).filter_by(email=login_session['email']).one()
@@ -198,8 +192,7 @@ def gdisconnect():
 @app.route('/activities')
 def activityList():
     activities = session.query(Activities).all()
-    return render_template(
-        'activities.html', activities=activities, login_session=login_session)
+    return render_template('activities.html', activities=activities, login_session=login_session)
 
 
 # Create new activity
@@ -208,18 +201,13 @@ def activityListNew():
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        newItem = Activities(
-            name=request.form['name'],
-            user_id=getUserID(login_session['email']))
+        newItem = Activities(name=request.form['name'],user_id=getUserID(login_session['email']))
         session.add(newItem)
         session.commit()
         flash("New activity added")
         return redirect(url_for('activityList'))
     else:
-        return render_template(
-            'activities_new.html',
-            login_session=login_session)
-
+        return render_template('activities_new.html',login_session=login_session)
 
 # Activities "make changes" page
 # same as main page but with edit and delete buttons
@@ -228,11 +216,7 @@ def activityListEdit():
     if 'username' not in login_session:
         return redirect('/login')
     activities = session.query(Activities).all()
-    return render_template(
-        'activities_makechanges.html',
-        activities=activities,
-        login_session=login_session)
-
+    return render_template('activities_makechanges.html',activities=activities,login_session=login_session)
 
 # Main page for activity with items list
 @app.route('/activities/<int:activity_id>')
@@ -240,11 +224,7 @@ def subCategory(activity_id):
     activity = session.query(Activities).filter_by(id=activity_id).one()
     subcategories = session.query(Subcategories).\
         filter_by(activity_id=activity_id).all()
-    return render_template(
-        'activity.html',
-        activity=activity,
-        subcategories=subcategories,
-        login_session=login_session)
+    return render_template('activity.html',activity=activity,subcategories=subcategories,login_session=login_session)
 
 
 # Items "make changes" page
@@ -256,11 +236,7 @@ def subCategoryEdit(activity_id):
     activity = session.query(Activities).filter_by(id=activity_id).one()
     subcategories = session.query(Subcategories).\
         filter_by(activity_id=activity_id).all()
-    return render_template(
-        'activity_makechanges.html',
-        activity=activity,
-        subcategories=subcategories,
-        login_session=login_session)
+    return render_template('activity_makechanges.html',activity=activity,subcategories=subcategories,login_session=login_session)
 
 
 # Edit an item
@@ -280,12 +256,7 @@ def itemEdit(activity_id, item_id):
         flash("Item has been edited")
         return redirect(url_for('subCategoryEdit', activity_id=activity_id))
     else:
-        return render_template(
-            'activity_edit.html',
-            activity_id=activity_id,
-            item_id=item_id,
-            item=editedItem,
-            login_session=login_session)
+        return render_template('activity_edit.html',activity_id=activity_id,item_id=item_id,item=editedItem,login_session=login_session)
 
 
 # Delete an item
@@ -302,12 +273,7 @@ def itemDelete(activity_id, item_id):
         flash("Item has been deleted!")
         return redirect(url_for('subCategoryEdit', activity_id=activity_id))
     else:
-        return render_template(
-            'activity_delete.html',
-            item=itemToDelete,
-            item_id=item_id,
-            activity_id=activity_id,
-            login_session=login_session)
+        return render_template('activity_delete.html',item=itemToDelete,item_id=item_id,activity_id=activity_id,login_session=login_session)
 
 
 # Create a new item
@@ -325,16 +291,12 @@ def itemNew(activity_id):
         flash("New activity added")
         return redirect(url_for('subCategory', activity_id=activity_id))
     else:
-        return render_template(
-            'activity_new.html',
-            activity_id=activity_id,
-            login_session=login_session)
+        return render_template('activity_new.html',activity_id=activity_id,login_session=login_session)
 
 
 # Edit an activity
 @app.route(
-    '/activities/makechanges/<int:activity_id>/edit',
-    methods=['GET', 'POST'])
+    '/activities/makechanges/<int:activity_id>/edit', methods=['GET', 'POST'])
 def activityEdit(activity_id):
     if 'username' not in login_session:
         return redirect('/login')
@@ -348,17 +310,12 @@ def activityEdit(activity_id):
         flash("Activity has been edited")
         return redirect(url_for('activityListEdit'))
     else:
-        return render_template(
-            'activityname_edit.html',
-            activity_id=activity_id,
-            activity=editedItem,
-            login_session=login_session)
+        return render_template('activityname_edit.html',activity_id=activity_id,activity=editedItem,login_session=login_session)
 
 
 # Delete an activity
 @app.route(
-    '/activities/makechanges/<int:activity_id>/delete',
-    methods=['GET', 'POST'])
+    '/activities/makechanges/<int:activity_id>/delete', methods=['GET', 'POST'])
 def activityDelete(activity_id):
     if 'username' not in login_session:
         return redirect('/login')
@@ -374,11 +331,7 @@ def activityDelete(activity_id):
         flash("Activity has been deleted!")
         return redirect(url_for('activityListEdit'))
     else:
-        return render_template(
-            'activities_delete.html',
-            activity=itemToDelete,
-            activity_id=activity_id,
-            login_session=login_session)
+        return render_template('activities_delete.html', activity=itemToDelete, activity_id=activity_id, login_session=login_session)
 
 
 # Making an API Endpoint (GET Request)
