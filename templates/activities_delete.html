@@ -86,21 +86,32 @@
 			</nav>
 		</div>
 
+		<div class="row">
 		
-		<div class="jumbotron">
-			<h3> Are you sure you want to delete &#39;{{activity.name}}&#39; ? </h3>
-			<div class="btn-group btn-group-sm" role="group" aria-label="...">
-				<form action="{{ url_for('activityDelete',activity_id=activity.id)}}" method = 'post'>
-					<input type='submit', value = 'Delete' class="btn btn-danger">
-					<a href = "{{ url_for('activityListEdit') }}">
-						<button type="button" class="btn btn-link">Cancel</button>
-					</a>
-				</form>
+		  <div class="col-md-8">
+			<div class="jumbotron">
+				<h3> Are you sure you want to delete &#39;{{activity.name}}&#39; ? </h3>
+				<div class="btn-group btn-group-sm" role="group" aria-label="...">
+					<form action="{{ url_for('activityDelete',activity_id=activity.id)}}" method = 'post'>
+						<input type='submit', value = 'Delete' class="btn btn-danger">
+						<a href = "{{ url_for('activityListEdit') }}">
+							<button type="button" class="btn btn-link">Cancel</button>
+						</a>
+					</form>
+				</div>
 			</div>
+		  </div>
+		  <div class="col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">Help</div>
+				<div class="panel-body"></div>
+				<div class="panel-footer"></div>
+			</div>
+		  </div>
+		  
 		</div>
-
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 </body>
