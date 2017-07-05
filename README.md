@@ -4,15 +4,15 @@
 # You can take this for getting ideas, but please create your own script (Better to learn ;-) )<br>
 
 Required:<br>
--Python (2.7) 
----> To install: in Ubuntu Console: "sudo apt-get install python"
+-Python (2.7) <br>
+---> To install: in Ubuntu Console: "sudo apt-get install python"<br>
 
--Python Moduls: SQLAlchemy, Requests, Flask, OAuth2Client
----> To install PIP: in Ubuntu Console: "sudo apt-get install python-pip"
-  -> To install Modules: in Ubuntu Console: "pip install sqlalchemy"
-  -> To install Modules: in Ubuntu Console: "pip install requests"
-  -> To install Modules: in Ubuntu Console: "pip install flask"
-  -> To install Modules: in Ubuntu Console: "pip install oauth2client"
+-Python Moduls: SQLAlchemy, Requests, Flask, OAuth2Client<br>
+---> To install PIP: in Ubuntu Console: "sudo apt-get install python-pip"<br>
+  -> To install Modules: in Ubuntu Console: "pip install sqlalchemy"<br>
+  -> To install Modules: in Ubuntu Console: "pip install requests"<br>
+  -> To install Modules: in Ubuntu Console: "pip install flask"<br>
+  -> To install Modules: in Ubuntu Console: "pip install oauth2client"<br>
   
 You need a Google OAuth2 API:
 -- Go to API Manager: https://console.developers.google.com/
