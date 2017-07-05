@@ -1,9 +1,9 @@
-# udacity-item-catalog
-# This content id produced by David Duckwitz
-# (c) 2017 by David Duckwitz (Project for Nanodegree - Udacity)
-# You can take this for getting ideas, but please create your own script (Better to learn ;-) )
+# udacity-item-catalog<br>
+# This content id produced by David Duckwitz<br>
+# (c) 2017 by David Duckwitz (Project for Nanodegree - Udacity)<br>
+# You can take this for getting ideas, but please create your own script (Better to learn ;-) )<br>
 
-Required:
+Required:<br>
 -Python (2.7) 
 ---> To install: in Ubuntu Console: "sudo apt-get install python"
 
