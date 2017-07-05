@@ -31,6 +31,7 @@ You need a Google OAuth2 API to use Google Login: <br>
 <br>
 Put Created Data to:<br>
 ---->	FILE (in root): "client_secrets.json"<br>
+----> Override all IPs with your Lightsail Public IP (Find it in your Lightsail Instance)
 ---->	FILE (in Folder "templates"): "login.html" - Override Data in Line 161: data-clientid="YOUR CLIENT ID"<br>
 -- Just override old Data<br>
 <br>
