@@ -29,7 +29,10 @@ You need a Facebook APP ID to use Facebook Login:<br>
   --> Create new APP<br>
   --> Write app_id & app_secret to FILE (in root): "fb_client_secrets.json"<br>
   --> FILE (in Folder "templates"): "login.html" - Override Data in Line 79: appId         :"YOUR APP ID"<br>
-  
+ 
+ To Get Help with Creating Facebook App-ID:
+   --> https://developers.facebook.com/docs/apps/register
+ 
 Hints:<br>
 I've seen some Problems with Google Login testing on Localhost(local).<br>
 Redirect from Google to Localhost makes problems (Google has a IP 127.0.0.1 and Localhost, too... of course)<br>
