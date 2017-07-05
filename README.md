@@ -1,7 +1,17 @@
 # udacity-item-catalog<br>
-# This content id produced by David Duckwitz<br>
-# (c) 2017 by David Duckwitz (Project for Nanodegree - Udacity)<br>
-# You can take this for getting ideas, but please create your own script (Better to learn ;-) )<br>
+This content id produced by David Duckwitz<br>
+(c) 2017 by David Duckwitz (Project for Nanodegree - Udacity)<br>
+You can take this for getting ideas, but please create your own script (Better to learn ;-) )<br>
+
+I don't used Vagrant / Virtualbox for this Project, because i have some problems with Vagrant..<br>
+But i've read in the Udacity Forum that i can use a AMAZON Lightsail Server instead...
+So I used a Amazon Lightsail Server with OS-Only(Ubuntu)...<br>
+Test it for FREE: https://lightsail.aws.amazon.com/ls/webapp/home<br>
+-- Create a new Instance (OS ONLY / Ubuntu)<br>
+-- Download your Private Key from your Accountif you want to use FTP or Putty
+  ----> https://lightsail.aws.amazon.com/ls/webapp/account
+-- Use Puttygen to create the Key with your downloaded Privatekey from Amazon
+  ----> Tutorial: https://devops.profitbricks.com/tutorials/use-ssh-keys-with-putty-on-windows/ 
 
 Required:<br>
 -Python (2.7) <br>
@@ -35,8 +45,4 @@ You need a Facebook APP ID to use Facebook Login:<br>
  
 Hints:<br>
 I've seen some Problems with Google Login testing on Localhost(local).<br>
-Redirect from Google to Localhost makes problems (Google has a IP 127.0.0.1 and Localhost, too... of course)<br>
-If Possible Test it on a Amazon AWS / Lightsail Server or other Servers with a real IP (NOT 127.0.0.1 / Localhost)...<br>
-<br>
-I used a Amazon Lightsail Server with OS-Only(Ubuntu)...<br>
-Test it for FREE: https://lightsail.aws.amazon.com/ls/webapp/home<br>
+If Possible Test it on a Amazon AWS / Lightsail Server or other Servers with a real IP (NOT Localhost)...<br>
