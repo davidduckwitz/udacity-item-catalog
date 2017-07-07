@@ -4,7 +4,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="inline pull-left">
-					<h1>Activities</h1>
+					<h1>Edit Activities</h1>
 				</div>
 				<a href="{{ url_for('activityList') }}">
 					<button type="button" class="btn btn-success btn-lg pull-right">Finished Editing</button>
@@ -25,21 +25,35 @@
 					{% endif %}
 					{% endwith %}
 				</div>
+			</div>
+				<div class="col-md-8">
 				{% for activity in activities %}
-				<h2>{{ activity.name }}</h2>
-				<div class="btn-group btn-group-sm" role="group" aria-label="...">
-					<a href="{{ url_for('activityEdit', activity_id = activity.id) }}">
-						<button type="button" class="btn btn-warning">
-							<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> edit
-						</button>
-					</a>
-					<a href="{{ url_for('activityDelete', activity_id = activity.id) }}">
-						<button type="button" class="btn btn-danger">
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> delete
-						</button>
-					</a>
+				<div class="panel panel-default">
+					<div class="panel-heading"><h2>{{ activity.name }}</h2></div>
+					<div class="panel-body">
+						<div class="btn-group btn-group-sm" role="group" aria-label="...">
+							<a href="{{ url_for('activityEdit', activity_id = activity.id) }}">
+								<button type="button" class="btn btn-warning">
+									<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> edit
+								</button>
+							</a>
+							<a href="{{ url_for('activityDelete', activity_id = activity.id) }}">
+								<button type="button" class="btn btn-danger">
+									<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> delete
+								</button>
+							</a>
+						</div>
+					</div>
 				</div>
 				{% endfor %}
 			</div>
+			<div class="col-md-4"><div class="panel panel-default">
+				<div class="panel-heading">Advertising</div>
+					<div class="panel-body">
+						<a href="https://freebitco.in/?r=647549"><img src="https://static1.freebitco.in/banners/468x60-3.png" class="img-responsive"></a>
+					</div>
+				</div>
+			</div>		
+			
 		</div>
 {% endblock %}

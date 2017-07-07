@@ -1,25 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-		
+
 		<div class="row">
-			<div class="col-md-12">
-				<div class="inline pull-left">
-					<h1>New Item</h1>
+			<div class="col-md-offset-4 col-md-4">
+			  <div class="panel panel-default">
+			  <div class="panel-heading text-center"><h3>New Item</h3></div>
+				<div class="panel-body">
+					<form class="navbar-form navbar-left" action="{{ url_for('itemNew', activity_id=activity_id) }}" method='POST' enctype='multipart/form-data'>
+						<div class="form-group">
+							<input type="text" name="name" class="form-control" placeholder="Item Name">						
+							<input type='submit' value='Create' class="btn btn-success">
+							<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+							<a href="{{ url_for('subCategory', activity_id=activity_id) }}"><button type="button" class="btn btn-danger btn-xs">Cancel</button></a>
+						</div>
+					</form>
 				</div>
-			</div>
-		</div>
-
-		<hr>
-
-		<div class="row">
-			<div class="col-md-12">
-				<form class="navbar-form navbar-left" action="{{ url_for('itemNew', activity_id=activity_id) }}" method = 'POST'>
-					<div class="form-group">
-						<input type="text" name="name" class="form-control" placeholder="Item Name">
-						<input type='submit' value='Create' class="btn btn-primary">
-						<a href = "{{ url_for('subCategory', activity_id=activity_id) }}"><button type="button" class="btn btn-link">Cancel</button></a>
-					</div>
-				</form>
+			  </div>
 			</div>
 		</div>
 	

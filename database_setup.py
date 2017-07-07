@@ -30,7 +30,7 @@ class Activities(Base):
 
 	__tablename__ = 'activities'
 	
-	name = Column(String(80), nullable = False)
+	name = Column(String(80), nullable = False)	
 	id = Column(Integer, primary_key = True)
 	user_id = Column(Integer, ForeignKey('user.id'))
 	user = relationship(User)
@@ -39,7 +39,7 @@ class Activities(Base):
 	def serialize(self):
 		#returns object data in easily serializeable format
 		return {
-			'activity_name': self.name,
+			'activity_name': self.name,			
 			'most_recent_editor': self.user.name,
 			'most_recent_editor_id': self.user_id,
 		}
@@ -50,7 +50,7 @@ class Subcategories(Base):
 
 	__tablename__ = 'subcategories'
 
-	name = Column(String(80), nullable = False)
+	name = Column(String(80), nullable = False)	
 	id = Column(Integer, primary_key = True)
 	activity_id = Column(Integer, ForeignKey('activities.id'))
 	activity = relationship(Activities)
@@ -62,7 +62,7 @@ class Subcategories(Base):
 		#returns object data in easily serializeable format
 		return {
 			'activity_name': self.activity.name,
-			'subcategory': self.name,
+			'subcategory': self.activity.name,			
 			'most_recent_editor': self.user.name,
 			'most_recent_editor_id': self.user_id,
 		}

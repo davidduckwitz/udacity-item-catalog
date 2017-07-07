@@ -39,9 +39,10 @@ import httplib2
 import json
 from flask import make_response
 import requests
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
-
+csrf = CSRFProtect(app)
 CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "udacity-fullstack-itemcatalog"
 
@@ -52,6 +53,14 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+# CSRF Security Features
+
+
+def includeme(config):
+    # previous configuration
+    session_secret = os.environ.get('SESSION_SECRET', 'itsaseekrit')
+    session_factory = SignedCookieSessionFactory(session_secret)
+    config.set_session_factory(session_factory)
 
 # Create a state token to prevent request forgery
 # Store it in the session for later validation
@@ -374,30 +383,6 @@ def itemNew(activity_id):
     else:
         return render_template('activity_new.html',activity_id=activity_id,login_session=login_session)
 
-
-# Disconnect based on provider
-@app.route('/disconnect')
-def disconnect():
-    if 'provider' in login_session:
-        if login_session['provider'] == 'google':
-            gdisconnect()
-            del login_session['gplus_id']
-            del login_session['credentials']
-            del login_session['provider']
-        if login_session['provider'] == 'facebook':
-            fbdisconnect()
-            del login_session['facebook_id']
-        del login_session['username']
-        del login_session['email']
-        del login_session['picture']
-        del login_session['user_id']
-        del login_session['provider']
-        flash("You have successfully been logged out.")
-        return redirect('/login')
-    else:
-        flash("You were not logged in")
-        return redirect("/login", code=302)
-
 # Edit an activity
 @app.route(
     '/activities/makechanges/<int:activity_id>/edit', methods=['GET', 'POST'])
@@ -454,6 +439,26 @@ def subcategoriesJSON():
     items = session.query(Subcategories).all()
     return jsonify(ActivityList=[i.serialize for i in items])
 
+# Disconnect based on provider
+@app.route('/disconnect')
+def disconnect():
+    if 'provider' in login_session:
+        if login_session['provider'] == 'google':
+            gdisconnect()
+            del login_session['gplus_id']
+        if login_session['provider'] == 'facebook':
+            fbdisconnect()
+            del login_session['facebook_id']
+        del login_session['username']
+        del login_session['email']
+        del login_session['picture']
+        del login_session['user_id']
+        del login_session['provider']
+        flash("You have successfully been logged out.")
+        return redirect('/login')
+    else:
+        flash("You were not logged in")
+        return redirect("/login", code=302)
 
 if __name__ == '__main__':
     app.secret_key = 'transcendence_secret_hash'

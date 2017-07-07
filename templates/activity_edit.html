@@ -17,6 +17,7 @@
 					<div class="form-group">
 						<input type="text" name="name" class="form-control" value="{{ item.name }}">
 						<input type="submit" value="Submit change" class="btn btn-success">
+						<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 						<a href="{{ url_for('subCategoryEdit', activity_id=activity_id) }}"><button type="button" class="btn btn-danger btn-xs">Cancel</button></a>
 					</div>
 				</form>

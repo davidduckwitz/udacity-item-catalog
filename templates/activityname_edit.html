@@ -13,11 +13,12 @@
 
 		<div class="row">
 			<div class="col-md-12">
-				<form class="navbar-form navbar-left" action="{{ url_for('activityEdit',activity_id = activity_id) }}" method = 'post'>
+				<form class="navbar-form navbar-left" action="{{ url_for('activityEdit',activity_id = activity_id) }}" method = 'post'>				
 					<div class="form-group">
 						<input type="text" name="name" class="form-control" value="{{ activity.name }}">
-						<input type="submit" value="Submit change" class="btn btn-primary">
-						<a href="{{ url_for('activityListEdit') }}"><button type="button" class="btn btn-link">Cancel</button></a>
+						<input type="submit" value="Submit change" class="btn btn-success">
+						<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+						<a href="{{ url_for('activityListEdit') }}"><button type="button" class="btn btn-danger btn-xs">Cancel</button></a>
 					</div>
 				</form>
 			</div>

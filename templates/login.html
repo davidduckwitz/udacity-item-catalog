@@ -41,8 +41,43 @@
 	<!-- ./ END GOOGLE SIGN IN -->	
 </head>
 <body>
+<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/">Project 'Catalog'</a>
+		</div>
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-left">				
+				<li><a href="/">Home</a></li>				
+			</ul>
+		
+		
+			<ul class="nav navbar-nav navbar-right">
+				{% if 'username' not in login_session %}
+				<li><a href="{{ url_for('showLogin') }}">Login</a></li>
+				{% else %}
+				{% if 'picture' not in login_session %}
+				<li><img src="{{ url_for('static', filename='blank_user.gif') }}" id="profile-photo"></li>
+				{% else %}
+				<li><img src="{{ login_session['picture'] }}" id="profile-photo"></li>
+				{% endif %}
+				<li><a href="{{ url_for('disconnect') }}">Logout</a></li>
+				{% endif %}
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
 <script>
 function signInCallback(authResult) {
+	var csrf_token = "{{ csrf_token() }}";
 	if (authResult['code']) {
 
 		// Hide the sign-in button now that the user is authorized
@@ -50,6 +85,11 @@ function signInCallback(authResult) {
 
 		// Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
 		$.ajax({
+			beforeSend: function(xhr, settings) {
+				if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+					xhr.setRequestHeader("X-CSRFToken", csrf_token);
+				}
+			},
 			type: 'POST',
 			url: '/gconnect?state={{STATE}}',
 			processData: false,
@@ -96,11 +136,17 @@ function signInCallback(authResult) {
   
   function sendTokenToServer() {
     var access_token = FB.getAuthResponse()['accessToken'];
+	var csrf_token = "{{ csrf_token() }}";
     console.log(access_token)
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
      $.ajax({
+	  beforeSend: function(xhr, settings) {
+            if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrf_token);
+            }
+        },
       type: 'POST',
       url: '/fbconnect?state={{STATE}}',
       processData: false,
@@ -126,7 +172,7 @@ function signInCallback(authResult) {
 	<div class="row">
 		<div class="col-md-12">
 			<div class="inline text-center">
-				<h1>Login</h1>
+				<h1>Activitie List Login</h1>
 			</div>
 		</div>
 	</div>
@@ -152,29 +198,67 @@ function signInCallback(authResult) {
 <!-- GOOGLE PLUS & FaceBook SIGN IN-->
 		
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-8">
+			<div class="panel panel-default">
+				<div class="panel-heading">Welcome</div>
+				<div class="panel-body">Here you can plan your Activities</div>
+				<div class="panel-footer">Sign-In / UP to create your own Activitie List</div>
+			</div>
+		
+		</div>
+		<div class="col-md-4">
 			<div class="inline text-center">
-			<!-- G Login -->
-				<div id="signinButton">
-					<span class="g-signin" 
-						data-scope="openid email" 
-						data-clientid="161181905988-sg22abf2sad3sgapnev4u04n6p14j7iq.apps.googleusercontent.com" 
-						data-redirecturi="postmessage" 
-						data-accesstype="offline" 
-						data-cookiepolicy="single_host_origin" 
-						data-callback="signInCallback" 
-						data-approvalprompt="force">
-					</span>
+				<div class="panel panel-info">
+					<div class="panel-heading">Sign-IN/UP</div>
+					<div class="panel-body">
+						<div class="panel panel-danger">
+							<div class="panel-heading">Login with Google</div>
+							<div class="panel-body">
+								<!-- G Login -->
+								<div id="signinButton">
+									<span class="g-signin" 
+										data-scope="openid email" 
+										data-clientid="161181905988-sg22abf2sad3sgapnev4u04n6p14j7iq.apps.googleusercontent.com" 
+										data-redirecturi="postmessage" 
+										data-accesstype="offline" 
+										data-cookiepolicy="single_host_origin" 
+										data-callback="signInCallback" 
+										data-approvalprompt="force">
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-primary">
+							<div class="panel-heading">Login with Facebook</div>
+							  <div class="panel-body">
+								<div id="result"> </div>
+								<!-- FB Login -->			
+								<fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
+								Login with Facebook
+								</fb:login-button>
+							  </div>
+						</div>
+					</div>
+					<div class="panel-footer"></div>
 				</div>
-				<div id="result"> </div>
-			<!-- FB Login -->			
-			  <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
-				Login with Facebook
-			  </fb:login-button>
-			
 			</div>
 		</div>
 	</div>
+
+<div class="container-fluid"> <!-- Start Container -->		
+	<div class="row text-center">
+		<div class="col-md-12">
+			<div class="panel panel-default text-center">
+			  <div class="panel-body text-center">
+				<h3><b>&copy; 2017 by David Duckwitz</b></h3>
+				<p><b>Other Projects by David Duckwitz:<br>
+				<a title="The Bitcoin-Tech Network" href="http://www.bitcoin-tech.com">Bitcoin-Tech</a> - <a title="The Bitcoin-School" href="http://www.bitcoin-school.com">Bitcoin-School</a> - <a title="Selfpres" href="http://www.selfpres.com">Selfpres</a> - <a title=".WS Domains" href="http://www.davidduckwitz.com">.ws Doamins</a> - <a title="Bitcoin Script" href="http://bitcoinscript.davidduckwitz.de">Bitcoin-Script</a></b></p>
+				<center><a href="https://freebitco.in/?r=647549"><img src="https://static1.freebitco.in/banners/728x90-2.png" class="img-responsive"></a></center>
+			  </div>
+			</div>
+		</div>
+	</div>
+</div> <!-- ./ End Container -->
 	
 </body>
 </html>
