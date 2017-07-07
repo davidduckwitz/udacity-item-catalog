@@ -9,6 +9,7 @@ Features:<br>
 --> Bootstrap 3.3.7 Framework<br>
 --> Python 2.7<br>
 --> Flask 0.12<br>
+--> Facebook Login (OAuth2) <br>
 <br>
 I don't used Vagrant / Virtualbox for this Project, because i have some problems with Vagrant..<br>
 But i've read in the Udacity Forum that i can use a AMAZON Lightsail Server instead...
@@ -36,6 +37,9 @@ You need a Google OAuth2 API to use Google Login: <br>
 -- Go to API Manager: https://console.developers.google.com/<br>
   --> Create API-Key <br>
   --> Create OAuth-2.0-Client-IDs<br>
+  --> Remove '<--' at Line 214 in File "/templates/login.html"<br> 
+  --> add '-->' at Line 217 (after G LOGIN) in File "/templates/login.html"
+  --> Remove '<--' at Line 230 in File "/templates/login.html"<br>
 <br>
 Put Created Data to:<br>
 ---->	FILE (in root): "client_secrets.json"<br>
