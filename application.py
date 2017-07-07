@@ -5,6 +5,10 @@
 # This content id produced by David Duckwitz
 # (c) 2017 by David Duckwitz (Project for Nanodegree - Udacity)
 # You can take this for getting ideas, but please create your own script
+# Thanks to Sources for help and inspiration while my Heart-attacks on finding Problems:
+# --- Flask CSRF Protection: http://flask-wtf.readthedocs.io/en/stable/csrf.html
+# --- Facebook Login: https://developers.facebook.com/docs/facebook-login/web and Udacity Tutorial
+# --- Google Login: https://developers.google.com/api-client-library/python/guide/aaa_oauth
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
