@@ -24,7 +24,7 @@ Required:<br>
 -Python (2.7) <br>
 ---> To install: in Ubuntu Console: "sudo apt-get install python"<br>
 <br>
--Python Moduls: SQLAlchemy, Requests, Flask, OAuth2Client<br>
+-Python Moduls: SQLAlchemy, Requests, Flask, OAuth2Client, Flask-WTF<br>
 ---> To install PIP: in Ubuntu Console: "sudo apt-get install python-pip"<br>
   -> To install Modules: in Ubuntu Console: "pip install sqlalchemy"<br>
   -> To install Modules: in Ubuntu Console: "pip install requests"<br>
