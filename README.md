@@ -22,6 +22,7 @@ Required:<br>
   -> To install Modules: in Ubuntu Console: "pip install sqlalchemy"<br>
   -> To install Modules: in Ubuntu Console: "pip install requests"<br>
   -> To install Modules: in Ubuntu Console: "pip install flask"<br>
+  -> To install Modules: in Ubuntu Console: "pip install Flask-WTF"<br>
   -> To install Modules: in Ubuntu Console: "pip install oauth2client"<br>
 <br>  
 You need a Google OAuth2 API to use Google Login: <br>
@@ -39,7 +40,7 @@ You need a Facebook APP ID to use Facebook Login:<br>
 -- Go to Facebook Developers: https://developers.facebook.com/apps/<br>
   --> Create new APP<br>
   --> Write app_id & app_secret to FILE (in root): "fb_client_secrets.json"<br>
-  --> FILE (in Folder "templates"): "login.html" - Override Data in Line 79: appId         :"YOUR APP ID"<br>
+  --> FILE (in Folder "templates"): "login.html" - Override Data in Line 79: appId:"YOUR APP ID"<br>
  
  To Get Help with Creating Facebook App-ID:
    --> https://developers.facebook.com/docs/apps/register
