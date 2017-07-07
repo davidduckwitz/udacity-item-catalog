@@ -1,8 +1,15 @@
-# udacity-item-catalog<br>
+# udacity-item-catalog "Activities"<br>
 This content id produced by David Duckwitz<br>
 (c) 2017 by David Duckwitz (Project for Nanodegree - Udacity)<br>
 You can take this for getting ideas, but please create your own script (Better to learn ;-) )<br>
 
+Features:<br>
+--> SQLITE 3<br>
+--> CRSF Protection on CRUD<br>
+--> Bootstrap 3.3.7 Framework<br>
+--> Python 2.7<br>
+--> Flask 0.12<br>
+<br>
 I don't used Vagrant / Virtualbox for this Project, because i have some problems with Vagrant..<br>
 But i've read in the Udacity Forum that i can use a AMAZON Lightsail Server instead...
 So I used a Amazon Lightsail Server with OS-Only(Ubuntu)...<br>
