@@ -5,10 +5,12 @@ You can take this for getting ideas, but please create your own script (Better t
 
 Features:<br>
 --> SQLITE 3<br>
---> CRSF Protection on CRUD<br>
+--> CRSF Protection on CRUD (Forms & AJAX)<br>
 --> Bootstrap 3.3.7 Framework<br>
+--> JQuery<br>
 --> Python 2.7<br>
 --> Flask 0.12<br>
+--> Flask-WTF<br>
 --> Facebook Login (OAuth2) <br>
 <br>
 I don't used Vagrant / Virtualbox for this Project, because i have some problems with Vagrant..<br>
@@ -59,3 +61,12 @@ You need a Facebook APP ID to use Facebook Login:<br>
 Hints:<br>
 I've seen some Problems with Google Login testing on Localhost(local).<br>
 If Possible Test it on a Amazon AWS / Lightsail Server or other Servers with a real IP (NOT Localhost)...<br>
+
+Problems on getting script running?<br>
+i've found some Help on these Sources:<br>
+ --- Flask CSRF Protection: http://flask-wtf.readthedocs.io/en/stable/csrf.html<br>
+ --- Facebook Login: https://developers.facebook.com/docs/facebook-login/web and Udacity Tutorial<br>
+ --- Google Login: https://developers.google.com/api-client-library/python/guide/aaa_oauth<br>
+ 
+ If you are a Udacity-Nanodegree User, you can contact me for getting Help and Hints for FREE
+
