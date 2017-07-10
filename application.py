@@ -69,7 +69,7 @@ def includeme(config):
 # Create a state token and Store it in the session for later validation
 @app.route('/login')
 def showLogin():
-     """
+    """
     Loads Login Page.
     """
     state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
@@ -133,7 +133,7 @@ def gconnect():
     params = {'access_token': credentials.access_token, 'alt': 'json'}
     answer = requests.get(userinfo_url, params=params)
     data = answer.json()
-     """
+    """
     Put data to Session
     """
     login_session['access_token'] = credentials.access_token
@@ -161,7 +161,7 @@ def gconnect():
 # User Helper Functions
 
 def createUser(login_session):
-     """
+    """
     Creates the User.
     """
     newUser = User(name=login_session['username'], email=login_session['email'], picture=login_session['picture'])
