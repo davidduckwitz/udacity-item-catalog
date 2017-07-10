@@ -69,6 +69,9 @@ def includeme(config):
 # Create a state token and Store it in the session for later validation
 @app.route('/login')
 def showLogin():
+     """
+    Loads Login Page.
+    """
     state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
     login_session['state'] = state
     return render_template('login.html', STATE=state)
@@ -130,6 +133,9 @@ def gconnect():
     params = {'access_token': credentials.access_token, 'alt': 'json'}
     answer = requests.get(userinfo_url, params=params)
     data = answer.json()
+     """
+    Put data to Session
+    """
     login_session['access_token'] = credentials.access_token
     login_session['gplus_id'] = gplus_id
     login_session['username'] = data['name']
@@ -142,7 +148,10 @@ def gconnect():
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: \150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    output += ' " style = "width: 300px; height: 300px;'\
+        'border-radius: 150px;'\
+        '-webkit-border-radius: 150px;'\
+        '-moz-border-radius: 150px;"> '
     if getUserID(login_session['email']) is None:
         createUser(login_session)
     flash("You are now logged in as %s" % login_session['username'])
@@ -152,6 +161,9 @@ def gconnect():
 # User Helper Functions
 
 def createUser(login_session):
+     """
+    Creates the User.
+    """
     newUser = User(name=login_session['username'], email=login_session['email'], picture=login_session['picture'])
     session.add(newUser)
     session.commit()
@@ -207,8 +219,6 @@ def fbconnect():
         return response
     access_token = request.data
     print "access token received %s " % access_token
-
-
     app_id = json.loads(open('fb_client_secrets.json', 'r').read())['web']['app_id']
     app_secret = json.loads(open('fb_client_secrets.json', 'r').read())['web']['app_secret']
     url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=%s&client_secret=%s&fb_exchange_token=%s' % (app_id, app_secret, access_token)
@@ -254,11 +264,9 @@ def fbconnect():
     if not user_id:
         user_id = createUser(login_session)
     login_session['user_id'] = user_id
-
     output = ''
     output += '<h1>Welcome, '
     output += login_session['username']
-
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
@@ -269,6 +277,9 @@ def fbconnect():
 
 @app.route('/fbdisconnect')
 def fbdisconnect():
+    ''' 
+        Disconnect the logged Facebook User.
+    '''
     facebook_id = login_session['facebook_id']
     # The access token must me included to successfully logout
     access_token = login_session['access_token']
@@ -282,6 +293,9 @@ def fbdisconnect():
 @app.route('/')
 @app.route('/activities')
 def activityList():
+    ''' 
+        Shows a list with activities
+    '''
     activities = session.query(Activities).all()
     return render_template('activities.html', activities=activities, login_session=login_session)
 
@@ -306,13 +320,15 @@ def activityListNew():
 def activityListEdit():
     if 'username' not in login_session:
         return redirect('/login')
-    activities = session.query(Activities).all()
+    activities = session.query(Activities).all()   
     return render_template('activities_makechanges.html',activities=activities,login_session=login_session)
 
 # Main page for activity with items list
 @app.route('/activities/<int:activity_id>')
 def subCategory(activity_id):
     activity = session.query(Activities).filter_by(id=activity_id).one()
+    if activity.user_id != login_session['user_id']:
+        return flash('Not allowed for you.')
     subcategories = session.query(Subcategories).\
         filter_by(activity_id=activity_id).all()
     return render_template('activity.html',activity=activity,subcategories=subcategories,login_session=login_session)
@@ -325,6 +341,8 @@ def subCategoryEdit(activity_id):
     if 'username' not in login_session:
         return redirect('/login')
     activity = session.query(Activities).filter_by(id=activity_id).one()
+    if activity.user_id != login_session['user_id']:
+        return flash('Not allowed for you.')
     subcategories = session.query(Subcategories).\
         filter_by(activity_id=activity_id).all()
     return render_template('activity_makechanges.html',activity=activity,subcategories=subcategories,login_session=login_session)
@@ -338,6 +356,8 @@ def itemEdit(activity_id, item_id):
     if 'username' not in login_session:
         return redirect('/login')
     editedItem = session.query(Subcategories).filter_by(id=item_id).one()
+    if editedItem.user_id != login_session['user_id']:
+        return flash('Not allowed for you.')
     if request.method == 'POST':
         if request.form['name']:
             editedItem.name = request.form['name']
@@ -358,6 +378,8 @@ def itemDelete(activity_id, item_id):
     if 'username' not in login_session:
         return redirect('/login')
     itemToDelete = session.query(Subcategories).filter_by(id=item_id).one()
+    if itemToDelete.user_id != login_session['user_id']:
+        return flash('Not allowed for you.')
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
@@ -391,6 +413,8 @@ def activityEdit(activity_id):
     if 'username' not in login_session:
         return redirect('/login')
     editedItem = session.query(Activities).filter_by(id=activity_id).one()
+    if editedItem.user_id != login_session['user_id']:
+        return flash('Not allowed for you.')
     if request.method == 'POST':
         if request.form['name']:
             editedItem.name = request.form['name']
@@ -409,6 +433,8 @@ def activityDelete(activity_id):
     if 'username' not in login_session:
         return redirect('/login')
     itemToDelete = session.query(Activities).filter_by(id=activity_id).one()
+    if itemToDelete.user_id != login_session['user_id']:
+        return flash('Not allowed for you.')
     subItemsToDelete = session.query(Subcategories).\
         filter_by(activity_id=activity_id).all()
     if request.method == 'POST':
@@ -420,7 +446,10 @@ def activityDelete(activity_id):
         flash("Activity has been deleted!")
         return redirect(url_for('activityListEdit'))
     else:
-        return render_template('activities_delete.html', activity=itemToDelete, activity_id=activity_id, login_session=login_session)
+        return render_template('activities_delete.html',
+                               activity=itemToDelete,
+                               activity_id=activity_id,
+                               login_session=login_session)
 
 
 # Making an API Endpoint (GET Request)
